@@ -7,7 +7,7 @@ def get_yes_no(msg):
     """
     value = None
     while value is None:
-        value = raw_input(msg).lower()
+        value = input(msg).lower()
         if value is not None and len(value) > 0:
             value = value[0]
         if value != 'y' and value != 'n':

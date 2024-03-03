@@ -2,10 +2,10 @@
 
 import xml.etree.cElementTree as et
 
-from urllib2 import urlopen
+from urllib.request import urlopen
 from re import sub as re_sub
 
-from Output import message, info, debug, extra, error
+from .Output import message, info, debug, extra, error
 
 def get_external_ip(verbosity=0):
     v = verbosity
@@ -15,13 +15,14 @@ def get_external_ip(verbosity=0):
     # Open URL
     try:
         html_result = urlopen(url)
-    except Exception, e:
+    except Exception as e:
         error("Url(%s) - %s" % (url, e))
         return None
 
     # Read result
-    ip_string = html_result.read().strip()
-    extra(v, "Full HTML Result: %s" % ip_string)
+    ip_bytes = html_result.read().strip()
+    extra(v, "Full HTML Result: %s" % ip_bytes)
+    ip_string = ip_bytes.decode("utf-8")
 
     # Parse out IP
     ip = None
@@ -75,7 +76,7 @@ def get_records(api_key, verbosity=0):
     # Open URL
     try:
         html_result = urlopen(url)
-    except Exception, e:
+    except Exception as e:
         error("url(%s) - %s" % (url, e))
         return None
 
@@ -91,7 +92,7 @@ def get_records(api_key, verbosity=0):
     # Parse XML
     try:
         xml = et.fromstring(raw_xml)
-    except Exception, e:
+    except Exception as e:
         error("XML Parsing Error - %s\nRaw XML: %s" % (e, raw_xml))
         return None
 
@@ -115,7 +116,7 @@ def update_record(record, ip, verbosity=0):
     # Open URL
     try:
         html_result = urlopen(url)
-    except Exception, e:
+    except Exception as e:
         error("url(%s) - %s" % (url, e))
         return
 

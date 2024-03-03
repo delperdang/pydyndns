@@ -12,20 +12,20 @@ def print_date():
     if not hasattr(print_date, 'has_been_called'):
         from datetime import datetime
         date = datetime.now().strftime("%A %B %d, %Y %I:%M:%S.%f %p")
-        print >> stderr, date
+        print(date, file=stderr)
         setattr(print_date, 'has_been_called', True)
 
 
 def error(msg):
     """Print msg to stderr"""
     print_date()
-    print >> stderr, 'Error: %s' % msg
+    print('Error: %s' % msg, file=stderr)
 
 
 def message(msg):
     """Always print msg to stdout"""
     print_date()
-    print >> stdout, msg
+    print(msg, file=stderr)
 
 
 def exit(return_code=0, msg=None):

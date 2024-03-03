@@ -34,7 +34,8 @@ def configure_config_file(config, v):
     has_records = len(config.records.keys()) > 0
     if has_records and get_yes_no("Delete all records (y/n): "):
         debug(v, "Deleting all records")
-        for key in config.records.keys():
+        config_records_keys = set(config.records.keys())
+        for key in config_records_keys:
             extra(v, "Deleting Record: %s" % config.records[key])
             del(config.records[key])
 

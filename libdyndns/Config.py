@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from Output import exit, message, info, debug, extra
+from .Output import exit, message, info, debug, extra
 
 class Config:
     def __init__(self, filepath, verbosity=0):
@@ -32,18 +32,18 @@ class Config:
                 f.write("[records]\n")
                 for key in self.records.keys():
                     f.write("%s=%s\n" % (key, self.records[key]))
-        except Exception, e:
+        except Exception as e:
             error("Could Not Save Config File (%s) - %s" % (self.filepath, e))
 
     def initialize(self):
         """ Parse Configuration File """
-        import ConfigParser
+        from configparser import ConfigParser
         # Assume filepath is good, since it is already checked
         info(self.v, 'Importing Configuration File: %s' % self.filepath)
-        config = ConfigParser.SafeConfigParser(allow_no_value=True)
+        config = ConfigParser(allow_no_value=True)
         try:
-            config.readfp(open(self.filepath, 'r'))
-        except Exception, e:
+            config.read_file(open(self.filepath, 'r'))
+        except Exception as e:
             exit(1, "Error reading config file (%s): %s" % (self.filepath, e))
 
         # Error Check
